@@ -1,6 +1,7 @@
 "use client"
 import Form from "./Components/LOGIN/form";
 import { useRouter } from 'next/navigation';
+import Signin from "./Components/LOGIN/Signin";
 
 
 export default function Home() {
@@ -14,6 +15,7 @@ export default function Home() {
   return (
     <>
  <Form/>
- <button onClick={handleClick}>ABout Section</button>
+ <Signin/>
+ <button className="my-3 bg-slate-900 text-white" onClick={handleClick}>ABout Section </button>
   </>);
 }

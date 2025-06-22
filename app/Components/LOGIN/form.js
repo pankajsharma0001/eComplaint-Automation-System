@@ -90,14 +90,14 @@ const login = () => {
 
   return (
     <>
-      {isSubmitting &&  <div>verifying...</div>
+      {isSubmitting &&  <div suppressHydrationWarning>verifying...</div>
 }
       <div className='container'>
         <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <input type="text" {...register("username", { required: { value: "true", message: "This cannot be empty" }, minLength: { value: 3, message: "Min Length is 3" }, maxLength: { value: 8, message: "Maxlength is 8" } })} />
+          <input type="text" {...register("username", { required: { value: true, message: "This cannot be empty" }, minLength: { value: 3, message: "Min Length is 3" }, maxLength: { value: 8, message: "Maxlength is 8" } })} />
           {errors.username && <div>{errors.username.message}</div>}
 
-          <input type="password" {...register("password", {required:{value: "true", message:"This cannot be empty"}, })} />
+          <input type="password" {...register("password", {required:{value: true, message:"This cannot be empty"}, })} />
           <input disabled={isSubmitting} type="submit" value="Submit" />
           {errors.password && <div>{errors.password.message}</div>}
 
