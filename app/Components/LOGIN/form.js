@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form"
 import { useEffect } from 'react';
 // import '../globals.css'
 import { useRouter } from 'next/navigation';
+import Signin from './Signin';
+
 
 
 
@@ -90,23 +92,34 @@ const login = () => {
 
   return (
     <>
-      {isSubmitting &&  <div suppressHydrationWarning>verifying...</div>
-}
-      <div className='container'>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <input type="text" {...register("username", { required: { value: true, message: "This cannot be empty" }, minLength: { value: 3, message: "Min Length is 3" }, maxLength: { value: 8, message: "Maxlength is 8" } })} />
-          {errors.username && <div>{errors.username.message}</div>}
+      <div className="flex">
+        <div className='container mx-auto flex flex-col  items-center   my-10 bg-gray-400 rounded-xl md:max-w-[450px] py-[40px]'>
 
-          <input type="password" {...register("password", {required:{value: true, message:"This cannot be empty"}, })} />
-          <input disabled={isSubmitting} type="submit" value="Submit" />
-          {errors.password && <div>{errors.password.message}</div>}
+          <h1>LOGIN</h1>
+          <form action="" className='flex  flex-col gap-2.5' onSubmit={handleSubmit(onSubmit)}>
 
-          {errors.myform && <div>{errors.myform.message}</div>}
+            <label>Username:</label>
+            <input type="text" {...register("username", { required: { value: true, message: "This cannot be empty" }, minLength: { value: 3, message: "Min Length is 3" }, maxLength: { value: 8, message: "Maxlength is 8" } })} />
+            {errors.username && <div className='text-red-600'>{errors.username.message}</div>}
 
+            <label>Password:</label>
+            <input type="password" {...register("password", { required: { value: true, message: "This cannot be empty" }, })} />
+            {errors.password && <div className='text-red-600'>{errors.password.message}</div>}
 
+            {isSubmitting && <div suppressHydrationWarning>verifying...</div>}
+            {errors.myform && <div className='text-red-600'>{errors.myform.message}</div>}
 
-        </form>
+            <input className='bg-slate-900 my-5  text-white px-16 py-2 rounded-md mx-5' disabled={isSubmitting} type="submit" value="Login" />
+          </form>
+          <Signin />
+        </div>
+
       </div>
+
+
+
+
+
     </>
   )
 }

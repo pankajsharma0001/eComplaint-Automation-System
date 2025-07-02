@@ -10,7 +10,7 @@ const Signin = () => {
   <>
       {status == 'loading' && <div>Loading...</div>}
     <div>
-      <p>You are not signed In</p>
+      {/* <p>You are not signed In</p> */}
       <button onClick={() => signIn('google', {prompt: 'select_account'})} className='bg-slate-900 text-white px-6 py-2 rounded-md mx-5'>Sign In With Google</button>
     </div>
     </>

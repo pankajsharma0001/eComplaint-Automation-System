@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { signIn } from "next-auth/react";
-import { unauthorized } from "next/navigation";
+// import { unauthorized } from "next/navigation";
 
 const authOptions = {
     providers: [
@@ -19,7 +19,7 @@ const authOptions = {
     ],
     callbacks: {
         async signIn({ account, profile }) {
-            if (profile?.email?.endsWith('pcampus.edu.np')) {
+            if (profile?.email?.endsWith('@pcampus.edu.np')) {
                 return true;
             } else {
                 return '/unauthorized';
