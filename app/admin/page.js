@@ -1,10 +1,16 @@
-import React from 'react'
 
-const page = () => {
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+
+export default async function AdminPage() {
   
-  return (
-    <div>this is admin page</div>
-  )
-}
+  const cookieStore = await cookies()
+  const session = cookieStore.get('session')
 
-export default page
+  
+  if (!session || session.value !== 'loggedin') {
+    redirect('/login')
+  }
+
+  return <div>This is the admin page</div>
+}
