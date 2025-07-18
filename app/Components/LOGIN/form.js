@@ -50,7 +50,7 @@ const login = () => {
     try {
       // Call your login API endpoint
       const res = await fetch('/api/auth', {
-        method: 'POST',
+        method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           username: data.username,
@@ -63,10 +63,14 @@ const login = () => {
       if (!res.ok) {
         // API returned an error — show it on form
         setError("myform", { message: response.error || "Login failed" });
-      } else {
+      } else if(data.username  =="admin"){
         reset();  // clear form on success
         router.push('/admin')
         alert("Login successful! Welcome " + data.username);
+      }
+      else {
+        router.push("/complain");
+        
       }
     } catch (error) {
       setError("myform", { message: "Something went wrong, please try again." });
@@ -94,9 +98,9 @@ const login = () => {
     <>
       <div className="flex">
         <div className='container mx-auto flex flex-col  items-center   my-10 bg-gray-400 rounded-xl md:max-w-[450px] py-[40px]'>
-
+  
           <h1>LOGIN</h1>
-          <form action="" className='flex  flex-col gap-2.5' onSubmit={handleSubmit(onSubmit)}>
+          <form method='POST' action="" className='flex  flex-col gap-2.5' onSubmit={handleSubmit(onSubmit)}>
 
             <label>Username:</label>
             <input type="text" {...register("username", { required: { value: true, message: "This cannot be empty" }, minLength: { value: 3, message: "Min Length is 3" }, maxLength: { value: 8, message: "Maxlength is 8" } })} />

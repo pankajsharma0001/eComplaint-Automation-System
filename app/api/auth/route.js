@@ -27,15 +27,14 @@ export async function POST(request) {
       user: { username: user.username }
     }, { status: 200 });
 
-   res.cookies.set('session', 'loggedin', {
+   response.cookies.set('session', 'loggedin', {
       httpOnly: true,
       path: '/',
-      maxAge: 60 * 60 * 24,             
       sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
     })
 
-    return res
+    return response
 
   } catch (error) {
     console.error('Login error:', error);

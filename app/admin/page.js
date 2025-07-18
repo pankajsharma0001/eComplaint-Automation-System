@@ -1,16 +1,18 @@
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import AdminDashboard from '../Components/adminDashboard/page';
 
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+export default async function AdminDashboardPage() {
+  const cookieStore = await cookies();
+  const session = cookieStore.get('session');
 
-export default async function AdminPage() {
-  
-  const cookieStore = await cookies()
-  const session = cookieStore.get('session')
-
-  
   if (!session || session.value !== 'loggedin') {
-    redirect('/login')
+    redirect('/login');
   }
 
-  return <div>This is the admin page</div>
+  return (
+    <div>
+      <AdminDashboard />
+    </div>
+  );
 }
