@@ -4,6 +4,10 @@ const ComplaintSchema = new mongoose.Schema({
   name: String,
   email: String,
   complaint: String,
+  status: {
+    type: String, 
+    default: "pending",
+  },
   createdAt: {
     type: Date,
     default: Date.now,

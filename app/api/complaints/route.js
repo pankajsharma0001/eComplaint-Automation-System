@@ -12,7 +12,7 @@ export async function POST(req) {
   }
 }
 
-export async function GET() {
+export async function GET(req) {
   try {
     await connectToDatabase();
     const complaints = await Complaint.find().sort({ createdAt: -1 });
@@ -21,3 +21,5 @@ export async function GET() {
     return Response.json({ error: "Failed to fetch complaints" }, { status: 500 });
   }
 }
+
+

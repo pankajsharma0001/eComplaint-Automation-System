@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { signIn } from "next-auth/react";
 // import { unauthorized } from "next/navigation";
 
-const authOptions = {
+export const authOptions = {
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID,
@@ -15,18 +15,19 @@ const authOptions = {
                     response_type: "code",
                 },
             },
+           
         })
     ],
     callbacks: {
         async signIn({ account, profile }) {
             if (profile?.email?.endsWith('@pcampus.edu.np')) {
-                return true;
+                return '/complain';
             } else {
                 return '/unauthorized';
             }
-        }
-    },
+        }, 
 
+    },
     secret: process.env.NEXTAUTH_SECRET,
     debug: true,
 };
