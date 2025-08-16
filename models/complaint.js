@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const ComplaintSchema = new mongoose.Schema({
-  name: String,
-  email: String,
+  department: String,
+  room: String,
   complaint: String,
   status: {
     type: String, 
