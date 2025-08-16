@@ -16,13 +16,28 @@ const Login = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const onSubmit = async (data) => {
-    if (data.username === "admin") {
-      router.push("/admin"); // normal admin login
+const onSubmit = async (data) => {
+  try {
+    const res = await fetch("/api/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+
+    if (res.ok) {
+      if (result.user.username === "admin") router.push("/admin");
+      else router.push("/complain");
     } else {
-      router.push("/complain");
+      alert(result.error);
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("Login failed");
+  }
+};
+
 
   const handleGoogleSignIn = () => signIn("google", { callbackUrl: "/complain" });
 

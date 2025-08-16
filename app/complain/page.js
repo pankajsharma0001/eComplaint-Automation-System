@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 export default function ComplaintForm() {
   const [formData, setFormData] = useState({ department: "", room: "", complaint: "", status: "pending" });
   const [complaints, setComplaints] = useState([]);
-  const [viewComplaint, setViewComplaint] = useState(false);
+  const [activeTab, setActiveTab] = useState("submit");
 
   const router = useRouter();
   const { data: session } = useSession();
@@ -34,6 +34,8 @@ export default function ComplaintForm() {
     }
   };
 
+
+
   const handleSignOut = async () => {
     await signOut({ redirect: false });
     router.push("/");
@@ -42,101 +44,102 @@ export default function ComplaintForm() {
   const getStatusColor = (status) => {
     switch (status) {
       case "pending":
-        return "bg-yellow-500 text-black";
+        return "bg-amber-300 text-gray-900";
       case "Inprogress":
-        return "bg-blue-500 text-white";
+        return "bg-teal-300 text-gray-900";
       case "Resolved":
-        return "bg-green-600 text-white";
+        return "bg-green-300 text-gray-900";
       case "Rejected":
-        return "bg-red-600 text-white";
+        return "bg-red-300 text-gray-900";
       default:
-        return "bg-gray-400 text-white";
+        return "bg-gray-300 text-gray-900";
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 text-white flex flex-col items-center p-6">
-      <div className="w-full max-w-3xl">
-        {/* Title */}
-        <h1 className="text-4xl font-bold text-center mb-8">Complaint Portal</h1>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+      <div className="w-full max-w-4xl">
+        {/* Header */}
+        <h1 className="text-4xl font-bold text-center mb-4 text-gray-900">Complaint Portal</h1>
+        {session?.user?.name && (
+          <p className="text-center mb-6 text-gray-700 text-lg">Welcome, {session.user.name}</p>
+        )}
 
-        {/* Form Section */}
-        <div className="bg-gray-900/60 p-8 rounded-2xl shadow-lg border border-gray-700 mb-8">
-          <h2 className="text-2xl font-semibold mb-6 text-center">Submit a Complaint</h2>
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <input
-              value={formData.department}
-              onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-              placeholder="Department"
-              className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-            <input
-              value={formData.room}
-              onChange={(e) => setFormData({ ...formData, room: e.target.value })}
-              placeholder="Room"
-              className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-            <textarea
-              value={formData.complaint}
-              onChange={(e) => setFormData({ ...formData, complaint: e.target.value })}
-              placeholder="Your complaint..."
-              className="w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800/50 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none h-32"
-            />
-
-            <button
-              type="submit"
-              className="bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-xl shadow-md transition duration-300 font-semibold"
-            >
-              Submit
-            </button>
-          </form>
-
+        {/* Tabs */}
+        <div className="flex justify-center mb-6 space-x-4">
           <button
-            onClick={handleSignOut}
-            className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl shadow-md transition duration-300 font-semibold"
+            className={`px-6 py-2 rounded-xl font-semibold transition ${activeTab === "submit" ? "bg-teal-400 shadow-md text-gray-900" : "bg-gray-200 hover:bg-gray-300 text-gray-900"}`}
+            onClick={() => setActiveTab("submit")}
           >
-            Sign Out
+            Submit Complaint
           </button>
-
-          {session?.user?.name && (
-            <p className="text-center mt-4 text-gray-300">Welcome, {session.user.name}</p>
-          )}
+          <button
+            className={`px-6 py-2 rounded-xl font-semibold transition ${activeTab === "view" ? "bg-teal-400 shadow-md text-gray-900" : "bg-gray-200 hover:bg-gray-300 text-gray-900"}`}
+            onClick={() => setActiveTab("view")}
+          >
+            View Complaints
+          </button>
         </div>
 
-        {/* Complaints Section */}
-        {viewComplaint && (
-          <div className="bg-gray-900/60 p-6 rounded-2xl shadow-lg border border-gray-700 mb-8">
-            <h2 className="text-2xl font-semibold text-center mb-4">Your Complaints</h2>
-            {complaints.length === 0 && (
-              <p className="text-center text-gray-400 italic">No complaints submitted yet.</p>
-            )}
-            <div className="flex flex-col gap-4">
-              {complaints.map((complaint, index) => (
-                <div
-                  key={index}
-                  className="bg-gray-800/50 p-4 rounded-xl border border-gray-700 shadow-md"
-                >
-                  <p><strong>Department:</strong> {complaint.department}</p>
-                  <p><strong>Room No:</strong> {complaint.room}</p>
-                  <p><strong>Complaint:</strong> {complaint.complaint}</p>
-                  <p className={`inline-block px-2 py-1 mt-2 rounded ${getStatusColor(complaint.status)}`}>
-                    {complaint.status}
-                  </p>
-                </div>
-              ))}
-            </div>
+        {/* Submit Complaint Form */}
+        {activeTab === "submit" && (
+          <div className="bg-gray-50 p-8 rounded-2xl shadow-md mb-8">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <input
+                value={formData.department}
+                onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                placeholder="Department"
+                className="px-4 py-3  rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400 text-gray-900"
+              />
+              <input
+                value={formData.room}
+                onChange={(e) => setFormData({ ...formData, room: e.target.value })}
+                placeholder="Room"
+                className="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400 text-gray-900"
+              />
+              <textarea
+                value={formData.complaint}
+                onChange={(e) => setFormData({ ...formData, complaint: e.target.value })}
+                placeholder="Your complaint..."
+                className=" px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400 text-gray-900 resize-none h-32"
+              />
+              <button
+                type="submit"
+                className="bg-gradient-to-r from-teal-400 to-violet-400 hover:from-violet-400 hover:to-teal-400 py-3 rounded-xl shadow-md transition duration-300 font-semibold text-gray-900"
+              >
+                Submit
+              </button>
+            </form>
+            <button
+              onClick={handleSignOut}
+              className="mt-4 w-full bg-red-400 hover:bg-red-500 text-gray-900 py-3 rounded-xl shadow-md transition duration-300 font-semibold"
+            >
+              Sign Out
+            </button>
           </div>
         )}
 
-        {/* Toggle Button at Bottom */}
-        <div className="flex justify-center">
-          <button
-            onClick={() => setViewComplaint(!viewComplaint)}
-            className="mt-6 px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl shadow-md transition duration-300 font-semibold"
-          >
-            {viewComplaint ? "Hide Complaints" : "View Complaints"}
-          </button>
-        </div>
+        {/* View Complaints */}
+        {activeTab === "view" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {complaints.length === 0 && (
+              <p className="text-center text-gray-500 italic col-span-2">No complaints submitted yet.</p>
+            )}
+            {complaints.map((complaint, index) => (
+              <div
+                key={index}
+                className="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow hover:scale-105 transform transition duration-300"
+              >
+                <p className="mb-2"><strong>Department:</strong> {complaint.department}</p>
+                <p className="mb-2"><strong>Room No:</strong> {complaint.room}</p>
+                <p className="mb-2"><strong>Complaint:</strong> {complaint.complaint}</p>
+                <span className={`inline-block px-3 py-1 mt-3 rounded-full font-semibold ${getStatusColor(complaint.status)}`}>
+                  {complaint.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
