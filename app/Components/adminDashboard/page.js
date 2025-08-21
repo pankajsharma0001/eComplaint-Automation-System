@@ -68,13 +68,13 @@ export default function AdminDashboard() {
       {/* Sidebar */}
       <aside className="w-64 bg-white border-r shadow-sm p-6 flex flex-col justify-between">
         <div>
-          <h2 className="text-xl font-bold mb-6">📋 Complaints</h2>
-          <ul className="space-y-2">
+          <h2 className="text-xl font-bold mb-6 fixed">📋 Complaints</h2>
+          <ul className="space-y-2 fixed mt-16">
             {statuses.map((status) => (
               <li key={status}>
                 <button
                   onClick={() => setSelectedStatus(status)}
-                  className={`w-full text-left px-4 py-2 rounded-lg transition ${
+                  className={`w-full text-left md:px-14 py-2 rounded-lg transition ${
                     selectedStatus === status
                       ? "bg-blue-500 text-white"
                       : "hover:bg-gray-200"
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
         {/* Sign Out Button */}
         <button
           onClick={handleSignOut}
-          className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-2xl shadow-md transition duration-300"
+          className="mt-4  p-14 bg-red-600 hover:bg-red-700 text-white py-2 rounded-2xl shadow-md transition duration-300 fixed bottom-3 left-1 md:mx-14"
         >
           Sign Out
         </button>

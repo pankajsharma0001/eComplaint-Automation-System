@@ -15,7 +15,7 @@ export async function POST(req) {
     // Email to user
     await transporter.sendMail({
       ...mailOptions,
-      to: "dineshbhusal798@gmail.com", 
+      to: "rakeshshrestha269@gmail.com", 
       subject: "Complaint Submitted Successfully",
       html: `
         <h2>Complaint Submitted</h2>
@@ -34,8 +34,8 @@ export async function POST(req) {
     // Email to admin
     await transporter.sendMail({
       ...mailOptions,
-      to: "iampankajsharma001@gmail.com", 
-      subject: "New Complaint Submitted",
+      to: "rakeshshrestha269@gmail.com", 
+      subject: "New Complaint Alert!!",
       html: `
         <h2>New Complaint Alert</h2>
         <p>A new complaint has been submitted. Details below:</p>
